@@ -13,15 +13,15 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+// define the middleware for authentication
+$middleware = ['auth:sanctum'];
+// define the prefix for the api routes
+$prefix = 'api/v1';
+// create the user route
+Route::middleware($middleware)->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::group(['middleware' => 'auth:sanctum'], function() {
-    // Task 12: Manage tasks with endpoint /api/v1/tasks/*****.
-    // Keep in mind that prefix should be /api/v1.
-    // Add ONE line to assign 5 resource routes to TaskController
-    // Put one code line here below
-
+// create the api routes
+Route::middleware($middleware)->prefix($prefix)->name('api.')->group(function () {
+    Route::apiResource('/tasks', 'TaskController');
 });
